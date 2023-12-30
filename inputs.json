@@ -1,0 +1,1838 @@
+{
+  "v": 1,
+  "id": "e3bb3b15-6050-4d40-a729-e3e05b87c0a8",
+  "rev": 1,
+  "name": "input",
+  "summary": "input",
+  "description": "",
+  "vendor": "secdoc",
+  "url": "",
+  "parameters": [],
+  "entities": [
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "bf8c51e0-1d13-4c16-b1c7-a361c2d0d3aa",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "netflow"
+        },
+        "configuration": {
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 2055
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          },
+          "netflow9_definitions_Path": {
+            "@type": "string",
+            "@value": ""
+          },
+          "charset_name": {
+            "@type": "string",
+            "@value": "UTF-8"
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog.plugins.netflow.inputs.NetFlowUdpInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "acf2b237-3f29-49cb-a65b-e8772804eca1",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "opnsense"
+        },
+        "configuration": {
+          "port": {
+            "@type": "integer",
+            "@value": 1514
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "force_rdns": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "allow_override_date": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "expand_structured_data": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "store_full_message": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "timezone": {
+            "@type": "string",
+            "@value": "NotSet"
+          },
+          "charset_name": {
+            "@type": "string",
+            "@value": "UTF-8"
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.syslog.udp.SyslogUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": [
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv6_tcp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),6,.*,tcp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 1
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ipversion,class,flowlabel,hoplimit,protocol-name,protocol-id,length,src-ip,dst-ip,src-port,dst-port,datalength,tcp-flags,sequence,ack,window,urg,options,opnsense-rid"
+                  },
+                  "trim_leading_whitespace": {
+                    "@type": "boolean",
+                    "@value": true
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv6 TCP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv4_tcp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),4,.*,tcp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,tos,ecn,ttl,id,offset,ip-flags,protocol-id,protocol-name,length,src-ip,dst-ip,src-port,dst-port,datalength,tcp-flags,sequence,f1,f2,tcp-options,opnsense-rid"
+                  },
+                  "trim_leading_whitespace": {
+                    "@type": "boolean",
+                    "@value": true
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv4 TCP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv6_udp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),6,.*,udp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 3
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,class,flowlabel,hoplimit,protocol-name,protocol-id,length,src-ip,dst-ip,src-port,dst-port,opnsense-rid"
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv6 UDP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv4_udp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),4,.*,udp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 2
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,tos,ecn,ttl,id,offset,flags,protocol-id,protocol-name,length,src-ip,dst-ip,src-port,dst-port,opnsense-rid"
+                  },
+                  "trim_leading_whitespace": {
+                    "@type": "boolean",
+                    "@value": true
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv4 UDP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv4_icmp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),4,.*,icmp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 4
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,tos,ecn,ttl,id,offset,flags,protocol-id,protocol-name,length,src-ip,dst-ip,datalength"
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv4 ICMP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv6_icmp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),6,.*,ipv6-icmp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 5
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,class,flowlabel,hoplimit,protocol-name,protocol-id,length,src-ip,dst-ip,datalength"
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv6 ICMP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv6_udp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),6,.*,udp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 3
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,class,flowlabel,hoplimit,protocol-name,protocol-id,length,src-ip,dst-ip,src-port,dst-port,opnsense-rid"
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv6 UDP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv6_tcp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),6,.*,tcp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 1
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ipversion,class,flowlabel,hoplimit,protocol-name,protocol-id,length,src-ip,dst-ip,src-port,dst-port,datalength,tcp-flags,sequence,ack,window,urg,options,opnsense-rid"
+                  },
+                  "trim_leading_whitespace": {
+                    "@type": "boolean",
+                    "@value": true
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv6 TCP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv4_udp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),4,.*,udp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 2
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,tos,ecn,ttl,id,offset,flags,protocol-id,protocol-name,length,src-ip,dst-ip,src-port,dst-port,opnsense-rid"
+                  },
+                  "trim_leading_whitespace": {
+                    "@type": "boolean",
+                    "@value": true
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv4 UDP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv4_tcp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),4,.*,tcp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,tos,ecn,ttl,id,offset,ip-flags,protocol-id,protocol-name,length,src-ip,dst-ip,src-port,dst-port,datalength,tcp-flags,sequence,f1,f2,tcp-options,opnsense-rid"
+                  },
+                  "trim_leading_whitespace": {
+                    "@type": "boolean",
+                    "@value": true
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv4 TCP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv6_icmp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),6,.*,ipv6-icmp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 5
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,class,flowlabel,hoplimit,protocol-name,protocol-id,length,src-ip,dst-ip,datalength"
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv6 ICMP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "filterlog_ipv4_icmp"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*,(in|out),4,.*,icmp,.*)$"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 4
+            },
+            "converters": [
+              {
+                "type": {
+                  "@type": "string",
+                  "@value": "CSV"
+                },
+                "configuration": {
+                  "column_header": {
+                    "@type": "string",
+                    "@value": "rule-number,sub-rule-number,anchor,tracker,interface,reason,action,direction,ip-version,tos,ecn,ttl,id,offset,flags,protocol-id,protocol-name,length,src-ip,dst-ip,datalength"
+                  }
+                }
+              }
+            ],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^(?i).*\\sfilterlog\\[[0-9]+\\]:\\s(.*)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense: IPv4 ICMP"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": ""
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "^<.*suricata.*Classification"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "grok_pattern": {
+                "@type": "string",
+                "@value": "<%{INT:filterlog_digit}>%{DATA:pfsense_timestamp} %{WORD:application}\\[%{INT:pfsense_app_id}\\]: \\[%{DATA:suricata_signature_id}\\] %{DATA:suricata_description} \\[Classification: %{DATA:suricata_classification}\\] \\[Priority: %{INT:suricata_priority}\\] \\{%{WORD:suricata_protocol}\\} %{IP:suricata_src}:%{INT:suricata_src_port} -> %{IP:suricata_dst}:%{INT:suricata_dst_port}"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "Suricata Alert"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "GROK"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": ""
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ".*suricata.*Classification.*->"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "grok_pattern": {
+                "@type": "string",
+                "@value": "%{SYSLOGHOST} %{SYSLOGPROG}\\:%{SPACE}\\[%{WORD:action}\\]%{SPACE}\\[%{DATA:suricata_signature_id}\\]%{SPACE}%{DATA:suricata_description}%{SPACE}(\\[Classification: )%{DATA:suricata_classification}\\]%{SPACE}(\\[Priority: )%{INT:suricata_priority}\\]%{SPACE}\\{%{URIPROTO:protocol}\\}%{SPACE}%{IPORHOST:src_host}\\:%{BASE10NUM:src_port}%{SPACE}\\-\\>%{SPACE}%{IPORHOST:dst_host}\\:%{BASE10NUM:dst_port}"
+              },
+              "named_captures_only": {
+                "@type": "boolean",
+                "@value": true
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "OPNsense Suricata extractor"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "GROK"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "REGEX"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "application_name"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "dhcpd"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "(dhcpd)"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "dhcp_application_name"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "STRING"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "application_name"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "suricata"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "(suricata)"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "surricata"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "STRING"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "application_name"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "filterlog"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "(filterlog)"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "filterlog_application_name"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "STRING"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "306ab72b-2c0e-4db2-af70-970a541a48aa",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "maltrail"
+        },
+        "configuration": {
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 1515
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          },
+          "timezone": {
+            "@type": "string",
+            "@value": "Etc/UTC"
+          },
+          "locale": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "use_full_names": {
+            "@type": "boolean",
+            "@value": false
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog.plugins.cef.input.CEFUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "1c5121b7-7188-435c-b527-ec7fd842e66b",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "NAXSI Logs"
+        },
+        "configuration": {
+          "port": {
+            "@type": "integer",
+            "@value": 1517
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "force_rdns": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "allow_override_date": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "expand_structured_data": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "store_full_message": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "timezone": {
+            "@type": "string",
+            "@value": "NotSet"
+          },
+          "charset_name": {
+            "@type": "string",
+            "@value": "UTF-8"
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.syslog.udp.SyslogUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "0f3f164c-e252-4160-98a5-f2b6301b2abe",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "pihole"
+        },
+        "configuration": {
+          "port": {
+            "@type": "integer",
+            "@value": 2515
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "force_rdns": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "allow_override_date": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "expand_structured_data": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "store_full_message": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "timezone": {
+            "@type": "string",
+            "@value": "NotSet"
+          },
+          "charset_name": {
+            "@type": "string",
+            "@value": "UTF-8"
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.syslog.udp.SyslogUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": [
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "application_name"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": "dnsmasq"
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "(dnsmasq)"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "pihole_application_name"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "STRING"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "a1285e48-b4be-4a6a-992b-a65870bf7fd5",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "zenarmor_syslog"
+        },
+        "configuration": {
+          "port": {
+            "@type": "integer",
+            "@value": 1516
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "force_rdns": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "allow_override_date": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "expand_structured_data": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "store_full_message": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "timezone": {
+            "@type": "string",
+            "@value": "NotSet"
+          },
+          "charset_name": {
+            "@type": "string",
+            "@value": "UTF-8"
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.syslog.udp.SyslogUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": [
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "json"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "^.*data=(.+)$"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "getjsonfromzalog"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": ""
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "flatten": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "list_separator": {
+                "@type": "string",
+                "@value": ", "
+              },
+              "kv_separator": {
+                "@type": "string",
+                "@value": "="
+              },
+              "key_prefix": {
+                "@type": "string",
+                "@value": ""
+              },
+              "key_separator": {
+                "@type": "string",
+                "@value": "_"
+              },
+              "replace_key_whitespace": {
+                "@type": "boolean",
+                "@value": false
+              },
+              "key_whitespace_replacement": {
+                "@type": "string",
+                "@value": "_"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "json"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "zalogjsonparsed"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "JSON"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "b6ae2ef4-2081-4548-bfdb-eb144af406d5",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "wazah"
+        },
+        "configuration": {
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 262144
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 3514
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 16
+          },
+          "timezone": {
+            "@type": "string",
+            "@value": "Etc/UTC"
+          },
+          "locale": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "use_full_names": {
+            "@type": "boolean",
+            "@value": false
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog.plugins.cef.input.CEFUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": [
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": ""
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "grok_pattern": {
+                "@type": "string",
+                "@value": "%{WORD:detector_type},%{USERNAME:gdpr_compliance},%{USERNAME:pci_dss_compliance_1},%{USERNAME:pci_dss_compliance_2},%{USERNAME:tsc_compliance_1},%{USERNAME:tsc_compliance_2}"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "cat"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "cat_grok"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "GROK"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "df3db6fe-32c8-4346-8bbd-5d169c96e581",
+      "data": {
+        "name": "WORD",
+        "pattern": "\\b\\w+\\b"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "267e5043-3faf-48d7-9102-334bb9932000",
+      "data": {
+        "name": "DATA",
+        "pattern": ".*?"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "611f38df-c01a-4d1f-ae51-366d431c3c40",
+      "data": {
+        "name": "IP",
+        "pattern": "(?:%{IPV6}|%{IPV4})"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "e1953fe1-b358-4e06-b84b-f85fb936e718",
+      "data": {
+        "name": "INT",
+        "pattern": "(?:[+-]?(?:[0-9]+))"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "27f9ea9b-a611-43ae-ab7d-7ca768cd6cf7",
+      "data": {
+        "name": "SPACE",
+        "pattern": "\\s*"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "ec43bd6f-2f12-473b-ba7f-876296adc314",
+      "data": {
+        "name": "SYSLOGHOST",
+        "pattern": "%{IPORHOST}"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "57ad4bf4-aa09-44c4-97c1-c81075e4f197",
+      "data": {
+        "name": "SYSLOGPROG",
+        "pattern": "%{PROG:program}(?:\\[%{POSINT:pid}\\])?"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "fe3de2e3-e5e3-4130-b4a2-cd35e3ed50a6",
+      "data": {
+        "name": "BASE10NUM",
+        "pattern": "(?<![0-9.+-])(?>[+-]?(?:(?:[0-9]+(?:\\.[0-9]+)?)|(?:\\.[0-9]+)))"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "561ca1ec-56c9-40cc-9521-dafa64085dce",
+      "data": {
+        "name": "URIPROTO",
+        "pattern": "[A-Za-z]+(\\+[A-Za-z+]+)?"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "8de128cf-702f-47bb-9dc8-c4f08827cc1f",
+      "data": {
+        "name": "IPORHOST",
+        "pattern": "(?:%{IP}|%{HOSTNAME})"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "d11b8afd-8e8a-4271-a25b-2606c3bb434b",
+      "data": {
+        "name": "USERNAME",
+        "pattern": "[a-zA-Z0-9._-]+"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "6e61b473-81aa-437d-a092-848645c1145d",
+      "data": {
+        "name": "IPV6",
+        "pattern": "((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(%.+)?"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "fdbcdc8b-90d7-4ff1-9a2d-1694279d16c8",
+      "data": {
+        "name": "IPV4",
+        "pattern": "(?<![0-9])(?:(?:[0-1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])[.](?:[0-1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])[.](?:[0-1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])[.](?:[0-1]?[0-9]{1,2}|2[0-4][0-9]|25[0-5]))(?![0-9])"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "a51087af-fd32-4e1e-8f7f-ed382527fb48",
+      "data": {
+        "name": "POSINT",
+        "pattern": "\\b(?:[1-9][0-9]*)\\b"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "e39c8273-2d71-4754-a7c9-2905f75e1c1c",
+      "data": {
+        "name": "PROG",
+        "pattern": "[\\x21-\\x5a\\x5c\\x5e-\\x7e]+"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "grok_pattern",
+        "version": "1"
+      },
+      "id": "62b5d5c7-c975-4fbb-ad35-626c7d3fde62",
+      "data": {
+        "name": "HOSTNAME",
+        "pattern": "\\b(?:[0-9A-Za-z][0-9A-Za-z-]{0,62})(?:\\.(?:[0-9A-Za-z][0-9A-Za-z-]{0,62}))*(\\.?|\\b)"
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=5.2.2+8eab621"
+        }
+      ]
+    }
+  ]
+}
