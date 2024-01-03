@@ -1,7 +1,7 @@
 # graylog
 Graylog Inputs
 
-The inputs.json file contains the input configurations for the follopwing input types:
+The inputs.json file contains the input configurations for the following input types:
 
  - DHCPD
  - Maltrail
